@@ -29,16 +29,15 @@ class Main extends PluginBase implements Listener{
                 if($sender instanceof Player){
                     if($sender->hasPermission("calculatorui.command")){
                         $this->CalculatorUI($sender);
-                        return true;
                     }else{
-                        return true;
                         $sender->sendMessage("§cYou Don't Have Permissions");
                     }
-                    }else{
+                }else{
                         $sender->sendMessage("§cUse Command Ingame!");
-                        return true;
-                    } 
-           }
+                }
+	    break;
+        }
+	return true;
     } 
 
     public function CalculatorUI($sender){ 
