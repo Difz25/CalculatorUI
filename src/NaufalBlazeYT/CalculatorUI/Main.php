@@ -78,10 +78,10 @@ class Main extends PluginBase implements Listener{
     public function Add($sender){ 
 	    $form = new CustomForm(function (Player $sender, $data) {
                     if($data !== null){
-				       $numbers1 = (int)$data[1];
+                       $numbers1 = (int)$data[1];
                        $numbers2 = (int)$data[2];
                        $result = $numbers1 + $numbers2;
-                       $sender->sendMessage("§aResult§f: §b$result");
+                       $sender->sendMessage("§aResult§f: §b".$result);
 				    }
 				});
 				$form->setTitle("§b§lAdd §f(§a+§f)");
@@ -94,10 +94,10 @@ class Main extends PluginBase implements Listener{
     public function Sub($sender){ 
 	    $form = new CustomForm(function (Player $sender, $data) {
                     if($data !== null){
-				       $numbers1 = (int)$data[1];
+                       $numbers1 = (int)$data[1];
                        $numbers2 = (int)$data[2];
                        $result = $numbers1 - $numbers2;
-                       $sender->sendMessage("§aResult§f: §b$result");
+                       $sender->sendMessage("§aResult§f: §b".$result);
 				    }
 				});
 				$form->setTitle("§b§lSub §f(§a-§f)");
@@ -110,10 +110,10 @@ class Main extends PluginBase implements Listener{
     public function Multiply($sender){ 
 	    $form = new CustomForm(function (Player $sender, $data) {
                     if($data !== null){
-				       $numbers1 = (int)$data[1];
+                       $numbers1 = (int)$data[1];
                        $numbers2 = (int)$data[2];
                        $result = $numbers1 * $numbers2;
-                       $sender->sendMessage("§aResult§f: §b$result");
+                       $sender->sendMessage("§aResult§f: §b".$result);
 				    }
 				});
 				$form->setTitle("§b§lMultiply §f(§a*§f)");
@@ -126,10 +126,10 @@ class Main extends PluginBase implements Listener{
     public function Divide($sender){ 
 	    $form = new CustomForm(function (Player $sender, $data) {
                     if($data !== null){
-				       $numbers1 = (int)$data[1];
+                       $numbers1 = (int)$data[1];
                        $numbers2 = (int)$data[2];
                        $result = $numbers1 / $numbers2;
-                       $sender->sendMessage("§aResult§f: §b$result");
+                       $sender->sendMessage("§aResult§f: §b".$result);
 				    }
 				});
 				$form->setTitle("§b§lDevide §f(§a/§f)");
