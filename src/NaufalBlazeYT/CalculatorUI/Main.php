@@ -132,7 +132,7 @@ class Main extends PluginBase implements Listener{
                        $sender->sendMessage("§aResult§f: §b".$result);
 				    }
 				});
-				$form->setTitle("§b§lDevide §f(§a/§f)");
+				$form->setTitle("§b§lDivide §f(§a/§f)");
 				$form->addLabel("§ePlease Write The First Number Here:");
 				$form->addInput("§bEnter The First Number Here:", "§f1");
 				$form->addInput("§bEnter The Second Number Here:", "§f1");
