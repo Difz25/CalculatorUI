@@ -1,33 +1,22 @@
-# General
+# <img src="https://github.com/DavyCraft648/CalculatorUI/blob/master/logo.png" height="64" width="64"> CalculatorUI
+Calculator in Minecraft, implement with a UI, Plugin to learning Math!
 
-This Plugin For Learning Math | CalculatorUI
+### Feature
+- [x] Addition
+- [x] Subtraction
+- [x] Multiplication
+- [x] Division
 
-# Description
-
-Calculator in Minecraft, implement with UI, This Plugin For Learning Math!
-
-[![](https://poggit.pmmp.io/shield.state/CalculatorUI)](https://poggit.pmmp.io/p/CalculatorUI)
-
-[![](https://poggit.pmmp.io/shield.api/CalculatorUI)](https://poggit.pmmp.io/p/CalculatorUI)
-
-# Feature
-- [x] Add
-- [x] Sub
-- [x] Multiply
-- [x] Divide
-
-# How to Install
-
-1. Download Latest Plugin!
-2. Place The `CalculatorUI.phar` Into `plugins` Folder!
-3. Restart You Server!
+### How to Install
+1. Download the latest plugin
+2. Place the `CalculatorUI.phar` into `plugins` directory
+3. Restart your server
 4. Done!
 
-# Commands 
-
-| Command | Default Description | Permission | Default |
-| --- | --- | --- | --- |
-| `/cal` | CalculatorUI Commands | `calculatorui.command` | true |
-
-# Additional Notes
-- If You See A Bug, [Click Here](https://github.com/NaufalBlaze/CalculatorUI/issues), Or DM My Naufal Blaze#8142 Via Discord
+### Command
+- `/calculatorui`
+  - description: `CalculatorUI command`
+  - aliases:
+    - `/calc`
+    - `/calcui`
+  - permission: calculatorui.command

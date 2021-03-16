@@ -2,140 +2,102 @@
 
 namespace NaufalBlazeYT\CalculatorUI;
 
-use pocketmine\Server;
+use jojoe77777\FormAPI\{CustomForm, SimpleForm};
+use pocketmine\command\{Command, CommandSender};
+use pocketmine\event\Listener;
 use pocketmine\Player;
-
-use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 
-use pocketmine\event\Listener;
-use pocketmine\utils\TextFormat as C;
+class Main extends PluginBase implements Listener
+{
+	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args): bool
+	{
+		if ($sender instanceof Player) {
+			$this->calculatorUI($sender);
+			return true;
+		}
+		$sender->sendMessage("§cUse this command in-game!");
+		return false;
+	}
 
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
-use pocketmine\command\CommandExecutor;
-use pocketmine\command\ConsoleCommandSender;
+	public function calculatorUI(Player $player): void
+	{
+		$form = new SimpleForm(function (Player $player, int $data = null) {
+			if ($data === 1) $this->addition($player);
+			elseif ($data === 2) $this->subtraction($player);
+			elseif ($data === 3) $this->multiplication($player);
+			elseif ($data === 4) $this->division($player);
+		});
+		$form->setTitle("§e§lCalculatorUI");
+		$form->addButton("§cExit\n§fTap to close");
+		$form->addButton("§f(§a+§f) §bAddition\n§fTap to open");
+		$form->addButton("§f(§a-§f) §bSubtraction\n§fTap to open");
+		$form->addButton("§f(§a×§f) §bMultiplication\n§fTap to open");
+		$form->addButton("§f(§a÷§f) §bDivision\n§fTap to open");
+		$player->sendForm($form);
+	}
 
-use pocketmine\utils\Config;
+	public function addition(Player $player): void
+	{
+		$form = new CustomForm(function (Player $player, $data) {
+			if (is_array($data) and is_numeric($data[1]) and is_numeric($data[2])) {
+				$result = $data[1] + $data[2];
+				$player->sendMessage("§aResult§f: §b" . number_format($result, 2));
+				return;
+			} elseif (!is_null($data)) $this->calculatorUI($player);
+		});
+		$form->setTitle("§f(§a+§f) §bAddition");
+		$form->addLabel("§eWrite down the numbers to sum:");
+		$form->addInput("");
+		$form->addInput("+");
+		$player->sendForm($form);
+	}
 
-use jojoe77777\FormAPI\SimpleForm;
-use jojoe77777\FormAPI\CustomForm;
+	public function subtraction(Player $player): void
+	{
+		$form = new CustomForm(function (Player $player, $data) {
+			if (is_array($data) and is_numeric($data[1]) and is_numeric($data[2])) {
+				$result = $data[1] - $data[2];
+				$player->sendMessage("§aResult§f: §b" . number_format($result, 2));
+				return;
+			} elseif (!is_null($data)) $this->calculatorUI($player);
+		});
+		$form->setTitle("§f(§a-§f) §bSubtraction");
+		$form->addLabel("§eWrite down the numbers to sum:");
+		$form->addInput("");
+		$form->addInput("-");
+		$player->sendForm($form);
+	}
 
-class Main extends PluginBase implements Listener{
+	public function multiplication(Player $player): void
+	{
+		$form = new CustomForm(function (Player $player, $data) {
+			if (is_array($data) and is_numeric($data[1]) and is_numeric($data[2])) {
+				$result = $data[1] * $data[2];
+				$player->sendMessage("§aResult§f: §b" . number_format($result, 2));
+				return;
+			} elseif (!is_null($data)) $this->calculatorUI($player);
+		});
+		$form->setTitle("§f(§a×§f) §bMultiplication");
+		$form->addLabel("§eWrite down the numbers to sum:");
+		$form->addInput("");
+		$form->addInput("×");
+		$player->sendForm($form);
+	}
 
-    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
-        switch($cmd->getName()){                    
-            case "cal":
-                if($sender instanceof Player){
-                    if($sender->hasPermission("calculatorui.command")){
-                        $this->CalculatorUI($sender);
-                    }else{
-                        $sender->sendMessage("§cYou Don't Have Permissions");
-                    }
-                }else{
-                        $sender->sendMessage("§cUse Command Ingame!");
-                }
-	    break;
-        }
-	return true;
-    } 
-
-    public function CalculatorUI($sender){ 
-            $form = new SimpleForm(function (Player $sender, int $data = null) {
-            $result = $data;
-            if($result === null){
-                return true;
-            }             
-            switch($result){
-                case 0:
-                break;
-                case 1:
-                    $this->Add($sender);
-                break;
-                case 2:
-                    $this->Sub($sender);
-                break;
-                case 3:
-                    $this->Multiply($sender);
-                break;
-                case 4:
-                    $this->Divide($sender);
-                break;
-
-                }
-            });
-            $form->setTitle("§e§lCalculatorUI");
-            $form->setContent("§bTo Help Multiply In Math");
-            $form->addButton("§cExit\n§fTap To Close");
-            $form->addButton("§bAdd §f(§a+§f)\n§fTap To Open");
-            $form->addButton("§bSub §f(§a-§f)\n§fTap To Open");
-            $form->addButton("§bMultiply §f(§a*§f)\n§fTap To Open");
-            $form->addButton("§bDivide §f(§a/§f)\n§fTap To Open");
-            $form->sendToPlayer($sender);
-            return $form;
-    }
-
-    public function Add($sender){ 
-	    $form = new CustomForm(function (Player $sender, $data) {
-                    if($data !== null){
-                       $numbers1 = (int)$data[1];
-                       $numbers2 = (int)$data[2];
-                       $result = $numbers1 + $numbers2;
-                       $sender->sendMessage("§aResult§f: §b".$result);
-				    }
-				});
-				$form->setTitle("§b§lAdd §f(§a+§f)");
-				$form->addLabel("§ePlease Write The First Number Here:");
-				$form->addInput("§bEnter The First Number Here:", "§f1");
-				$form->addInput("§bEnter The Second Number Here:", "§f1");
-				$form->sendToPlayer($sender);
-    }
-
-    public function Sub($sender){ 
-	    $form = new CustomForm(function (Player $sender, $data) {
-                    if($data !== null){
-                       $numbers1 = (int)$data[1];
-                       $numbers2 = (int)$data[2];
-                       $result = $numbers1 - $numbers2;
-                       $sender->sendMessage("§aResult§f: §b".$result);
-				    }
-				});
-				$form->setTitle("§b§lSub §f(§a-§f)");
-				$form->addLabel("§ePlease Write The First Number Here:");
-				$form->addInput("§bEnter The First Number Here:", "§f1");
-				$form->addInput("§bEnter The Second Number Here:", "§f1");
-				$form->sendToPlayer($sender);
-    }
-
-    public function Multiply($sender){ 
-	    $form = new CustomForm(function (Player $sender, $data) {
-                    if($data !== null){
-                       $numbers1 = (int)$data[1];
-                       $numbers2 = (int)$data[2];
-                       $result = $numbers1 * $numbers2;
-                       $sender->sendMessage("§aResult§f: §b".$result);
-				    }
-				});
-				$form->setTitle("§b§lMultiply §f(§a*§f)");
-				$form->addLabel("§ePlease Write The First Number Here:");
-				$form->addInput("§bEnter The First Number Here:", "§f1");
-				$form->addInput("§bEnter The Second Number Here:", "§f1");
-				$form->sendToPlayer($sender);
-    }
-
-    public function Divide($sender){ 
-	    $form = new CustomForm(function (Player $sender, $data) {
-                    if($data !== null){
-                       $numbers1 = (int)$data[1];
-                       $numbers2 = (int)$data[2];
-                       $result = $numbers1 / $numbers2;
-                       $sender->sendMessage("§aResult§f: §b".$result);
-				    }
-				});
-				$form->setTitle("§b§lDivide §f(§a/§f)");
-				$form->addLabel("§ePlease Write The First Number Here:");
-				$form->addInput("§bEnter The First Number Here:", "§f1");
-				$form->addInput("§bEnter The Second Number Here:", "§f1");
-				$form->sendToPlayer($sender);
-    }
+	public function division(Player $player): void
+	{
+		$form = new CustomForm(function (Player $player, $data) {
+			if (is_array($data) and is_numeric($data[1]) and is_numeric($data[2])) {
+				$result = $data[1] / $data[2];
+				$player->sendMessage("§aResult§f: §b" . number_format($result, 2));
+				return;
+			} elseif (!is_null($data)) $this->calculatorUI($player);
+		});
+		$form->setTitle("§f(§a÷§f) §bDivision");
+		$form->addLabel("§eWrite down the numbers to sum:");
+		$form->addInput("");
+		$form->addInput("÷");
+		$player->sendForm($form);
+	}
 }

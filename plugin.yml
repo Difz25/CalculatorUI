@@ -1,16 +1,18 @@
 name: CalculatorUI
+version: 1.0.0-beta
 main: NaufalBlazeYT\CalculatorUI\Main
 api: 3.0.0
-version: 1.0.0-beta
 author: NaufalBlazeYT
-
 commands:
-  cal:
-   description: "CalculatorUI Commands"
+  calculatorui:
+   description: "CalculatorUI command"
+   usage: /calc
+   aliases:
+     - calc
+     - calcui
    permission: calculatorui.command
-   usage: /cal
-
+   permission-message: "§cYou do not have permission"
 permissions:
   calculatorui.command:
     default: op
-    description: "CalculatorUI Commands"
+    description: "Allow user to use CalculatorUI command"
